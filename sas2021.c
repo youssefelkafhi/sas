@@ -205,10 +205,10 @@ void Loyalty(){
 void SortedAscByChiffre(float Chiffre){
     
      SortedAsc();
-     for(i=0;i<allAccounts;i++){
+     for(int i=0;i<allAccounts;i++){
          if(CB[i].Money>=Chiffre){
               DisplayAccount(i);
-         }else exist(0)
+         }else exit(0);
      }
 }
 //*****************************function main***********************
@@ -275,6 +275,11 @@ int main()
             {   system("cls");
                 SortedDesc();
                 DisplayAccounts();
+                system("pause");
+            }else if (affichage == 3)
+            {   system("cls");
+                float Chiffre=100;
+                SortedAscByChiffre(Chiffre);
                 system("pause");
             }else if(affichage==5){
                 int i;
