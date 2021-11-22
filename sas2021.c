@@ -14,7 +14,6 @@ typedef struct Cb
 int allAccounts=0;
 int size=10;
 BankAccount *CB;
-
 //********* function Create bank account******************
 void CreateAccount()
 {  
@@ -196,26 +195,35 @@ void Loyalty(){
         if (i<3)
         {
             CB[i].Money+=CB[i].Money*1.3/100;
-        }
-        
+        } 
     }
 }
-//*****************************function SortedAscByChiffre ***********************
-
+//*****************************function SortedAscByChiffre **********************
 void SortedAscByChiffre(float Chiffre){
-    
      SortedAsc();
      for(int i=0;i<allAccounts;i++){
          if(CB[i].Money>=Chiffre){
               DisplayAccount(i);
-         }else exit(0);
+         }
      }
+     printf("***********\n");
+     system("pause");
+}
+//*****************************function SortedDescByChiffre ***********************
+void SortedDescByChiffre(float Chiffre){
+     SortedDesc();
+     for(int i=0;i<allAccounts;i++){
+         if(CB[i].Money>=Chiffre){
+              DisplayAccount(i);
+         }
+     }
+     printf("***********\n");
+     system("pause");
 }
 //*****************************function main***********************
 int main()
 {
     CB = malloc(size * sizeof(BankAccount));
- 
     int option, operation, affichage,nbrAccount;
     system("cls");
     printf("tape enter pour commence\n");
@@ -262,6 +270,7 @@ int main()
             printf("1.Par Ordre Ascendant\n");
             printf("2.Par Ordre Descendant\n");
             printf("3.Par Ordre Ascendant (les comptes bancaire ayant un montant supérieur à un chiffre introduit)  ");
+            printf("4.Par Ordre Descendant (les comptes bancaire ayant un montant supérieur à un chiffre introduit)");
             printf("5.Recherche par CIN\n");
             printf("Veuillez choisi votre choit:");
                 scanf("%d", &affichage);
@@ -280,6 +289,11 @@ int main()
             {   system("cls");
                 float Chiffre=100;
                 SortedAscByChiffre(Chiffre);
+                system("pause");
+            }else if (affichage == 4)
+            {   system("cls");
+                float Chiffre=100;
+                SortedDescByChiffre(Chiffre);
                 system("pause");
             }else if(affichage==5){
                 int i;
