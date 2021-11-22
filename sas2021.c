@@ -14,6 +14,7 @@ typedef struct Cb
 int allAccounts=0;
 int size=10;
 BankAccount *CB;
+
 //********* function Create bank account******************
 void CreateAccount()
 {  
@@ -201,13 +202,15 @@ void Loyalty(){
 }
 //*****************************function SortedAscByChiffre ***********************
 
-// void SortedAscByChiffre(BankAccount *CB,int nbrAccount){
-//     int i;
-//      SortedAsc(CB,  nbrAccount);
-//      for(i=0;i<nbrAccount){
-         
-//      }
-// }
+void SortedAscByChiffre(float Chiffre){
+    
+     SortedAsc();
+     for(i=0;i<allAccounts;i++){
+         if(CB[i].Money>=Chiffre){
+              DisplayAccount(i);
+         }else exist(0)
+     }
+}
 //*****************************function main***********************
 int main()
 {
