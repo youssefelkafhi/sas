@@ -42,10 +42,9 @@ void CreateAccounts( int nbrAccount)
     }
 }
 //**********finction Display Accounts***********
-void DisplayAccounts(BankAccount *CB, int nbrAccount)
+void DisplayAccounts( )
 {
-    int i;
-    for (i = 0; i < nbrAccount; i++)
+    for (int i = 0; i < allAccounts; i++)
     {
         printf("******************************\n");
         printf("   Information  pour compte num  %d\n", i + 1);
@@ -57,11 +56,11 @@ void DisplayAccounts(BankAccount *CB, int nbrAccount)
     }
 }
 // *******8 function display one account by index**********
-void DisplayAccount(BankAccount *CB, int index,int nbrAccount)
+void DisplayAccount(int index)
 {
-   int i;
+   
     
-    for ( i = 0; i < nbrAccount; i++)
+    for (int i = 0; i < allAccounts; i++)
     {
         if (i==index)
         {  
@@ -79,10 +78,10 @@ void DisplayAccount(BankAccount *CB, int index,int nbrAccount)
     
 }
 //************* function check user is exist!**************
-int IfExist(BankAccount *CB, char CIN[10], int nbrAccount)
+int IfExist(char CIN[10])
 {
-    int i;
-    for (i = 0; i < nbrAccount; i++)
+    
+    for (int i = 0; i < allAccounts; i++)
     {
         if (strcmp(CB[i].CIN, CIN) == 0)
         {
@@ -92,7 +91,7 @@ int IfExist(BankAccount *CB, char CIN[10], int nbrAccount)
     return -1;
 }
 // ************ function for do deposit*************
-void AddDeposit(BankAccount *CB, int nbrAccount)
+void AddDeposit( )
 {
     float deposit;
     char CIN[10];
@@ -100,22 +99,22 @@ void AddDeposit(BankAccount *CB, int nbrAccount)
     printf("enter CIN of user");
     fflush(stdin);
     gets(CIN);
-    if (IfExist(CB, CIN, nbrAccount) >= 0)
+    if (IfExist(CIN) >= 0)
     {   
         printf("Please add how much money\n");
         scanf("%f", &deposit);
-        i = IfExist(CB, CIN, nbrAccount);
+        i = IfExist(CIN);
         CB[i].Money = CB[i].Money + deposit;
         printf("Le nouveau sold est:\t");
         printf("%f\n", CB[i].Money);
     }
-    else if(IfExist(CB, CIN, nbrAccount) < 0) {
-        printf("%d",IfExist(CB, CIN, nbrAccount));
+    else if(IfExist(CIN) < 0) {
+        printf("%d",IfExist(CIN));
         printf("isn't here\n");
     }
 }
 // ************ function for Retrait*************
-void DoRetreit(BankAccount *CB, int nbrAccount)
+void DoRetreit()
 {
 
     float retrait = 0, money;
@@ -124,9 +123,9 @@ void DoRetreit(BankAccount *CB, int nbrAccount)
     printf("Veuillez enter CIN de ce compte");
     fflush(stdin);
     gets(CIN);
-    if (IfExist(CB, CIN, nbrAccount) >= 0)
+    if (IfExist(CIN) >= 0)
     {
-        i = IfExist(CB, CIN, nbrAccount);
+        i = IfExist(CIN);
         do
         {   j=0;
             CB[i].Money = CB[i].Money + retrait;
@@ -148,15 +147,15 @@ void DoRetreit(BankAccount *CB, int nbrAccount)
         printf("isn't here\n");
 }
 //*****************************function for sorted ASC**********************
-void SortedAsc(BankAccount *CB, int nbrAccount)
+void SortedAsc()
 {
     int i,j;
     float Money;
     BankAccount new;
    
-    for (i = 0; i < nbrAccount - 1; i++)
+    for (i = 0; i < allAccounts - 1; i++)
     {
-        for (j = i + 1; j < nbrAccount; j++){
+        for (j = i + 1; j < allAccounts; j++){
 
             if (CB[j].Money < CB[i].Money)
             {
@@ -169,14 +168,14 @@ void SortedAsc(BankAccount *CB, int nbrAccount)
     }
 }
 //*****************************function for sorted ASC**********************
-void SortedDesc(BankAccount *CB, int nbrAccount)
+void SortedDesc()
 {
     int i,j;
     float Money;
     BankAccount new;
-    for (i = 0; i < nbrAccount - 1; i++)
+    for (i = 0; i < allAccounts - 1; i++)
     { 
-        for (j = i + 1; j < nbrAccount; j++){
+        for (j = i + 1; j < allAccounts; j++){
 
             if (CB[j].Money > CB[i].Money)
             {
@@ -189,10 +188,10 @@ void SortedDesc(BankAccount *CB, int nbrAccount)
 }
 
 //*******************function for users loyalty***********************
-void Loyalty(BankAccount *CB,int nbrAccount){
+void Loyalty(){
     int i ;
-    SortedDesc(CB, nbrAccount);
-    for (i=0;i< nbrAccount;i++){
+    SortedDesc();
+    for (i=0;i< allAccounts;i++){
         if (i<3)
         {
             CB[i].Money+=CB[i].Money*1.3/100;
@@ -239,7 +238,6 @@ int main()
             system("cls");
             printf("Veuillez entrer le nombre des comptes\n");
             scanf("%d", &nbrAccount);
-
             CreateAccounts( nbrAccount);
             system("pause");
             break;
@@ -256,54 +254,41 @@ int main()
             system("pause");
             break;
         case 4:
-            // system("cls");
-            // printf("******affichage******\n");
-            // printf("1.Par Ordre Ascendant\n");
-            // printf("2.Par Ordre Descendant\n");
-            // printf("3.Par Ordre Ascendant (les comptes bancaire ayant un montant supérieur à un chiffre introduit)  ");
-            // printf("5.Recherche par CIN\n");
-            // printf("Veuillez choisi votre choit:");
-            //     scanf("%d", &affichage);
-            // if (affichage == 1)
-            // {   system("cls");
-            //     SortedAsc(CB, allAccounts);
-            //     DisplayAccounts(CB, allAccounts);
-            //     system("pause");
-            // }
-            // else if (affichage == 2)
-            // {   system("cls");
-            //     SortedDesc(CB, allAccounts);
-            //     DisplayAccounts(CB, allAccounts);
-            //     system("pause");
-            // }else if(affichage==5){
-            //     int i;
-            //     char CIN[10];
-            //     printf("veuillez enter CIN \n");
-            //     scanf("%s",CIN);
-            //     i = IfExist(CB, CIN, allAccounts);
-            //     DisplayAccount(CB, i,allAccounts);
-            //     system("pause");
-            // }
-            
-               for (int i = 0; i < allAccounts; i++)
-    {
-        printf("******************************\n");
-        printf("   Information  pour compte num  %d\n", i + 1);
-        printf("CIN==>%s\n", CB[i].CIN);
-        printf("Fullname==>%s\n", CB[i].FullName);
-        printf("Money==>%.4f DH\n", CB[i].Money);
-        printf("*******************************\n");
-        printf("\n");
-    }
-            system("pause");
-            
+            system("cls");
+            printf("******affichage******\n");
+            printf("1.Par Ordre Ascendant\n");
+            printf("2.Par Ordre Descendant\n");
+            printf("3.Par Ordre Ascendant (les comptes bancaire ayant un montant supérieur à un chiffre introduit)  ");
+            printf("5.Recherche par CIN\n");
+            printf("Veuillez choisi votre choit:");
+                scanf("%d", &affichage);
+            if (affichage == 1)
+            {   system("cls");
+                SortedAsc( allAccounts);
+                DisplayAccounts();
+                system("pause");
+            }
+            else if (affichage == 2)
+            {   system("cls");
+                SortedDesc();
+                DisplayAccounts();
+                system("pause");
+            }else if(affichage==5){
+                int i;
+                char CIN[10];
+                printf("veuillez enter CIN \n");
+                scanf("%s",CIN);
+                i = IfExist(CIN);
+                DisplayAccount(i);
+                system("pause");
+            }
             break;
-        case 5: Loyalty(CB, allAccounts);
-            DisplayAccounts(CB, allAccounts);
+        case 5: Loyalty();
+            DisplayAccounts();
             system("pause");
             break;
         case 0:
-             free(CB);
+            free(CB);
             printf("au revoir!!!!!\n");
             system("pause");
             exit(0);
