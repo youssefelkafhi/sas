@@ -121,7 +121,7 @@ void AddDeposit( )
         scanf("%d",&createAccount);
         if(createAccount==1){
           
-           CreateAccount( allAccounts);
+           CreateAccount( );
            printf("Maintenant vous peuvez passer a l'operartion depot\n");
            AddDeposit( );
         }
@@ -221,8 +221,8 @@ void SortedAscByChiffre(float Chiffre){
               DisplayAccount(i);
          }
      }
-     printf("***********\n");
-     system("pause");
+   
+     
 }
 //*****************************function SortedDescByChiffre ***********************
 void SortedDescByChiffre(float Chiffre){
@@ -232,17 +232,51 @@ void SortedDescByChiffre(float Chiffre){
               DisplayAccount(i);
          }
      }
-     printf("***********\n");
-     system("pause");
+     
+     
 }
+//*****************************function do transactionnbetween two accounts***********************
+void DoTransaction(){
+    int cinA,cinB;
+    char CINA[10],CINB[10];
+    float transaction;
+    printf("Veuillez entrer CIN d'emetteur\n");
+    scanf("%s",CINA);
+    printf("Veuillez entrer CIN de destinataire\n");
+    scanf("%s",CINB);
+    cinA = IfExist( CINA);
+    printf("*********%d",IfExist( CINA));
+    system("pause");
+    cinB = IfExist(CINB);
+    printf("********%d",IfExist(CINB));
+    system("pause");
+    printf("Veuillez enter le nombre de transaction\n");
+        scanf("%f",&transaction);
+    if (cinA>=0 && cinB>=0){
+        
+        CB[cinA].Money-= transaction;
+        printf("%f",CB[cinA].Money);
+        system("pause");
+        CB[cinB].Money+=transaction;
+        printf("%f",CB[cinB].Money);
+        system("pause");
+        printf("la transaction est bien effectuee entre les deux compte\n");
+        DisplayAccount(cinA);
+        DisplayAccount(cinB);
+    }else if(cinA<0 || cinB<0 ){
+        printf("il n'a pas d'un compte parmi les deux\n");
+    }
+}
+
 //*****************************function display menu of display***********************
 void MenuDisplay(){
-    printf("******affichage******\n");
+   
     printf("1.Par Ordre Ascendant\n");
     printf("2.Par Ordre Descendant\n");
     printf("3.Par Ordre Ascendant (les comptes bancaire ayant un montant superieur a un chiffre introduit)\n");
     printf("4.Par Ordre Descendant (les comptes bancaire ayant un montant superieur a un chiffre introduit)\n");
     printf("5.Recherche par CIN\n");
+    printf("0.Retour a menu principal\n");
 }
 //*****************************function menu principle***********************
 void MenuPrinciple(){
@@ -252,6 +286,7 @@ void MenuPrinciple(){
     printf("3.choisi d'un Operations :\n- Retrait\n- Depot\n");
     printf("4.affiche des comptes bancaires\n");
     printf("5.Fidelisation\n");
+    printf("6.Faire transaction\n");
     printf("0.Quitter l'application :)\n");
 }
 //*****************************function menu operation**********************
@@ -300,12 +335,14 @@ int main()
             system("pause");
             break;
         case 4:
+
             system("cls");
+             printf("******affichage******\n");
             MenuDisplay();
             do{
             printf("Veuillez choisir :");
                 scanf("%d", &affichage);
-            }while(affichage <1 || affichage>5);
+            }while(affichage <0 || affichage>5);
             if (affichage == 1)
             {   system("cls");
                 printf("-->Affichage Par Ordre Ascendant<--\n ");
@@ -343,12 +380,18 @@ int main()
                 index = IfExist(CIN);
                 DisplayAccount(index);
                 system("pause");
-            }
+            }else if (affichage==0) break;
             break;
         case 5: Loyalty();
             printf("-->Fidelisation<--\n ");
             system("cls");
             DisplayAccounts();
+            system("pause");
+            break;
+        case 6: 
+            printf("-->Transaction<--\n ");
+            DoTransaction();
+            
             system("pause");
             break;
         case 0:
