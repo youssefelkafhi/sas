@@ -21,13 +21,14 @@ void CreateAccount()
          size=size*2;
         CB = realloc(CB,size*sizeof(BankAccount));
      }
+     printf("\n");
     printf("Veuillez enter les information de ce compte\n");
     printf("CIN==>");
     scanf("%s", CB[allAccounts].CIN);
-    printf("Fullname==>");
+    printf("Non et Prenon==>");
     fflush(stdin);
     gets(CB[allAccounts].FullName);
-    printf("Money==>");
+    printf("Montant(DH)==>");
     scanf("%f", &CB[allAccounts].Money);
 allAccounts++;
 }
@@ -95,22 +96,35 @@ void AddDeposit( )
 {
     float deposit;
     char CIN[10];
+    int createAccount;
     int i;
-    printf("enter CIN of user");
+    printf("enter CIN de client : ");
     fflush(stdin);
     gets(CIN);
     if (IfExist(CIN) >= 0)
     {   
-        printf("Please add how much money\n");
-        scanf("%f", &deposit);
         i = IfExist(CIN);
+        printf("Le solde de ce compte est :\t");
+        printf("%f DH\n", CB[i].Money);
+        printf("Veuillez entrer conbien d'argent voulez vous depot\n");
+        scanf("%f", &deposit);
+        printf("\n");
         CB[i].Money = CB[i].Money + deposit;
+        printf("-->l'operation est bien effectuee\n");
+        printf("\n");
         printf("Le nouveau sold est:\t");
-        printf("%f\n", CB[i].Money);
+        printf("%f DH\n", CB[i].Money);
     }
     else if(IfExist(CIN) < 0) {
-        printf("%d",IfExist(CIN));
-        printf("isn't here\n");
+        printf("Le client n'est pas trouver,Est ce que voulez vous creaer un compte?\n-->si oui clicke 1\n-->si nom clicke 2\n");
+        printf("\n");
+        scanf("%d",&createAccount);
+        if(createAccount==1){
+          
+           CreateAccount( allAccounts);
+           printf("Maintenant vous peuvez passer a l'operartion depot\n");
+           AddDeposit( );
+        }
     }
 }
 // ************ function for Retrait*************
@@ -129,22 +143,23 @@ void DoRetreit()
         do
         {   j=0;
             CB[i].Money = CB[i].Money + retrait;
-            printf("Ce compte a  %f DH \n", CB[i].Money);
-
-            if (j == 0)
-            {
-                printf("Veuillez enter combien d'argon voulez vous retrait\n");
-            }
-            else printf("s'ils vous plait entrer nombre moin de %f\n",CB[i].Money );
+            printf("Le sold de ce compte est : %f DH \n", CB[i].Money);
+            if (j == 0) printf("Veuillez enter combien d'argon voulez vous retrait\n");
+            else{
+            printf("-->Le sold ne permet pas de faire cette l'operation<--\n");
+             printf("s'ils vous plait entrer nombre moin de %f\n",CB[i].Money );
+             }   
             scanf("%f", &retrait);
-            printf("before %f \n", CB[i].Money);
+            printf("Avant l'operation  %f DH\n", CB[i].Money);
             CB[i].Money = CB[i].Money - retrait;
-            printf("after %f \n", CB[i].Money);
+            printf("Apres l'operation %f DH\n", CB[i].Money);
             j++;
+            if(CB[i].Money>0)printf("-->L'operatin est bien effectuee\n");
         } while (CB[i].Money < 0);
+        
     }
     else
-        printf("isn't here\n");
+        printf("-->Le client n'a pas trouve<-- \n");
 }
 //*****************************function for sorted ASC**********************
 void SortedAsc()
@@ -220,23 +235,43 @@ void SortedDescByChiffre(float Chiffre){
      printf("***********\n");
      system("pause");
 }
+//*****************************function display menu of display***********************
+void MenuDisplay(){
+    printf("******affichage******\n");
+    printf("1.Par Ordre Ascendant\n");
+    printf("2.Par Ordre Descendant\n");
+    printf("3.Par Ordre Ascendant (les comptes bancaire ayant un montant superieur a un chiffre introduit)\n");
+    printf("4.Par Ordre Descendant (les comptes bancaire ayant un montant superieur a un chiffre introduit)\n");
+    printf("5.Recherche par CIN\n");
+}
+//*****************************function menu principle***********************
+void MenuPrinciple(){
+    printf("*******MENU*************\n");
+    printf("1.Introduire un compte bancaire\n");
+    printf("2.Introduire plusieurs comptes bancaires\n");
+    printf("3.choisi d'un Operations :\n- Retrait\n- Depot\n");
+    printf("4.affiche des comptes bancaires\n");
+    printf("5.Fidelisation\n");
+    printf("0.Quitter l'application :)\n");
+}
+//*****************************function menu operation**********************
+void MenuOperation(){
+    printf("Quelle oreration vous voulez faire\n");
+    printf("1.--> Retrait\n 2.--> Depot\n");
+}
 //*****************************function main***********************
 int main()
 {
     CB = malloc(size * sizeof(BankAccount));
     int option, operation, affichage,nbrAccount;
+    float Chiffre;
     system("cls");
     printf("tape enter pour commence\n");
     system("pause");
     do
-    { system("cls");
-        printf("*******MENU*************\n");
-        printf("1.Introduire un compte bancaire\n");
-        printf("2.Introduire plusieurs comptes bancaires\n");
-        printf("3.choisi d'un Operations :\n- Retrait\n- Depot\n");
-        printf("4.affiche des comptes bancaires\n");
-        printf("5.Fidélisation\n");
-        printf("0.Quitter l'application :)\n");
+    { 
+        system("cls");
+         MenuPrinciple();
         printf("Veuillez choisi votre choit:");
         scanf("%d", &option);
         switch (option)
@@ -254,58 +289,65 @@ int main()
             break;
         case 3:
             system("cls");
-            printf("Quelle oreration vous voulez faire\n");
-            printf("1.- Retrait\t 2.- Depot\n");
-            printf("Veuillez enter voter option ICI!!:");
+            MenuOperation();
+            do{
+            printf("Veuillez enter voter option  (1 ou 2)ICI!!:");
             scanf("%d", &operation);
-            if (operation == 1)
-                DoRetreit(CB, nbrAccount);
-            else
-                AddDeposit(CB, nbrAccount);
+            }while(operation<1||operation>2);
+            if (operation == 1)DoRetreit(CB, nbrAccount);
+            else if(operation == 2)AddDeposit(CB, nbrAccount);
+                
             system("pause");
             break;
         case 4:
             system("cls");
-            printf("******affichage******\n");
-            printf("1.Par Ordre Ascendant\n");
-            printf("2.Par Ordre Descendant\n");
-            printf("3.Par Ordre Ascendant (les comptes bancaire ayant un montant supérieur à un chiffre introduit)  ");
-            printf("4.Par Ordre Descendant (les comptes bancaire ayant un montant supérieur à un chiffre introduit)");
-            printf("5.Recherche par CIN\n");
-            printf("Veuillez choisi votre choit:");
+            MenuDisplay();
+            do{
+            printf("Veuillez choisir :");
                 scanf("%d", &affichage);
+            }while(affichage <1 || affichage>5);
             if (affichage == 1)
             {   system("cls");
+                printf("-->Affichage Par Ordre Ascendant<--\n ");
                 SortedAsc( allAccounts);
                 DisplayAccounts();
                 system("pause");
             }
             else if (affichage == 2)
             {   system("cls");
+                printf("-->Affichage par Ordre Descendan<--\n ");
                 SortedDesc();
                 DisplayAccounts();
                 system("pause");
             }else if (affichage == 3)
             {   system("cls");
-                float Chiffre=100;
+                printf("-->Affichage par Ordre Ascendant (Chiffre)<--\n ");
+                printf("Veuillez entrer le chiffre\n");
+                scanf("%f",&Chiffre);
                 SortedAscByChiffre(Chiffre);
                 system("pause");
             }else if (affichage == 4)
             {   system("cls");
-                float Chiffre=100;
+                printf("-->Affichage par Ordre Descendan (Chiffre)<--\n ");
+                printf("Veuillez entrer le chiffre\n");
+                scanf("%f",&Chiffre);
                 SortedDescByChiffre(Chiffre);
                 system("pause");
             }else if(affichage==5){
-                int i;
+               system("cls");
+                printf("-->Recherche par CIN<--\n ");
+                int index;
                 char CIN[10];
                 printf("veuillez enter CIN \n");
                 scanf("%s",CIN);
-                i = IfExist(CIN);
-                DisplayAccount(i);
+                index = IfExist(CIN);
+                DisplayAccount(index);
                 system("pause");
             }
             break;
         case 5: Loyalty();
+            printf("-->Fidelisation<--\n ");
+            system("cls");
             DisplayAccounts();
             system("pause");
             break;
