@@ -50,8 +50,8 @@ void DisplayAccounts( )
         printf("******************************\n");
         printf("   Information  pour compte num  %d\n", i + 1);
         printf("CIN==>%s\n", CB[i].CIN);
-        printf("Fullname==>%s\n", CB[i].FullName);
-        printf("Money==>%.4f DH\n", CB[i].Money);
+        printf("Non et Prenon==>%s\n", CB[i].FullName);
+        printf("Montant==>%.4f DH\n", CB[i].Money);
         printf("*******************************\n");
         printf("\n");
     }
@@ -68,8 +68,8 @@ void DisplayAccount(int index)
         printf("**********************************\n");
         printf("     Info fot account number %d\n", index + 1);
         printf("CIN==>%s\n", CB[index].CIN);
-        printf("Fullname==>%s\n", CB[index].FullName);
-        printf("Money==>%.4f DH\n", CB[index].Money);
+        printf("Non et Prenon==>%s\n", CB[index].FullName);
+        printf("Montant==>%.4f DH\n", CB[index].Money);
         printf("**********************************\n");
         printf("\n");
         }
@@ -131,32 +131,32 @@ void AddDeposit( )
 void DoRetreit()
 {
 
-    float retrait = 0, money;
+    float retrait = 0   ;
     char CIN[10];
-    int i, j = 0;
-    printf("Veuillez enter CIN de ce compte");
+    int index, j = 0;
+    printf("Veuillez enter CIN de ce compte :");
     fflush(stdin);
     gets(CIN);
     if (IfExist(CIN) >= 0)
-    {
-        i = IfExist(CIN);
+    {j=0;
+        index = IfExist(CIN);
         do
-        {   j=0;
-            CB[i].Money = CB[i].Money + retrait;
-            printf("Le sold de ce compte est : %f DH \n", CB[i].Money);
+        {   
+            CB[index].Money = CB[index].Money + retrait;
+            printf("Le sold de ce compte est : %f DH \n", CB[index].Money);
             if (j == 0) printf("Veuillez enter combien d'argon voulez vous retrait\n");
             else{
             printf("-->Le sold ne permet pas de faire cette l'operation<--\n");
-             printf("s'ils vous plait entrer nombre moin de %f\n",CB[i].Money );
+             printf("s'ils vous plait entrer nombre moin de %f\n",CB[index].Money );
              }   
             scanf("%f", &retrait);
-            printf("Avant l'operation  %f DH\n", CB[i].Money);
-            CB[i].Money = CB[i].Money - retrait;
-            printf("Apres l'operation %f DH\n", CB[i].Money);
+            printf("Avant l'operation  %f DH\n", CB[index].Money);
+            CB[index].Money = CB[index].Money - retrait;
+            printf("Apres l'operation %f DH\n", CB[index].Money);
             j++;
-            if(CB[i].Money>0)printf("-->L'operatin est bien effectuee\n");
-        } while (CB[i].Money < 0);
-        
+            if(CB[index].Money>0)printf("-->L'operatin est bien effectuee\n");
+        } while (CB[index].Money < 0);
+        DisplayAccount(index);
     }
     else
         printf("-->Le client n'a pas trouve<-- \n");
@@ -232,8 +232,6 @@ void SortedDescByChiffre(float Chiffre){
               DisplayAccount(i);
          }
      }
-     
-     
 }
 //*****************************function do transactionnbetween two accounts***********************
 void DoTransaction(){
@@ -245,21 +243,21 @@ void DoTransaction(){
     printf("Veuillez entrer CIN de destinataire\n");
     scanf("%s",CINB);
     cinA = IfExist( CINA);
-    printf("*********%d",IfExist( CINA));
-    system("pause");
+    // printf("*********%d",IfExist( CINA));
+    // system("pause");
     cinB = IfExist(CINB);
-    printf("********%d",IfExist(CINB));
-    system("pause");
+    // printf("********%d",IfExist(CINB));
+    // system("pause");
     printf("Veuillez enter le nombre de transaction\n");
         scanf("%f",&transaction);
     if (cinA>=0 && cinB>=0){
         
         CB[cinA].Money-= transaction;
-        printf("%f",CB[cinA].Money);
-        system("pause");
+        // printf("%f",CB[cinA].Money);
+        // system("pause");
         CB[cinB].Money+=transaction;
-        printf("%f",CB[cinB].Money);
-        system("pause");
+        // printf("%f",CB[cinB].Money);
+        // system("pause");
         printf("la transaction est bien effectuee entre les deux compte\n");
         DisplayAccount(cinA);
         DisplayAccount(cinB);
@@ -329,8 +327,8 @@ int main()
             printf("Veuillez enter voter option  (1 ou 2)ICI!!:");
             scanf("%d", &operation);
             }while(operation<1||operation>2);
-            if (operation == 1)DoRetreit(CB, nbrAccount);
-            else if(operation == 2)AddDeposit(CB, nbrAccount);
+            if (operation == 1)DoRetreit();
+            else if(operation == 2)AddDeposit();
                 
             system("pause");
             break;

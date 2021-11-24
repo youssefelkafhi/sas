@@ -1,12 +1,17 @@
-if (cinA>=0 && cinB>=0){
-        
-        CB[cinA].Money-= transaction;
-        printf("%f",CB[cinA].Money);
-        system("pause");
-        CB[cinB].Money+=transaction;
-        printf("%f",CB[cinB].Money);
-        system("pause");
-        printf("la transaction est bien effectuee\n");
-    }else if(cinA<0 || cinB<0 ){
-        printf("il n'a pas d'un compte parmi les deux\n");
+ int i,j;
+    float Money;
+    BankAccount new;
+   
+    for (i = 0; i < allAccounts - 1; i++)
+    {
+        for (j = i + 1; j < allAccounts; j++){
+
+            if (CB[j].Money < CB[i].Money)
+            {
+                new=CB[i];
+                CB[i]=CB[j];
+                CB[j]=new;
+                
+            }
+        }
     }
