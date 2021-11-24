@@ -76,7 +76,7 @@ void DisplayAccount(int index)
         
     }
     
-    
+
 }
 //************* function check user is exist!**************
 int IfExist(char CIN[10])
@@ -210,6 +210,7 @@ void Loyalty(){
         if (i<3)
         {
             CB[i].Money+=CB[i].Money*1.3/100;
+            DisplayAccount(i);
         } 
     }
 }
@@ -380,10 +381,11 @@ int main()
                 system("pause");
             }else if (affichage==0) break;
             break;
-        case 5: Loyalty();
-            printf("-->Fidelisation<--\n ");
+        case 5:
             system("cls");
-            DisplayAccounts();
+            printf("-->Fidelisation<--\n ");
+            Loyalty();
+            
             system("pause");
             break;
         case 6: 
